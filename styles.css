@@ -44,8 +44,9 @@ body {
 }
 
 .container {
-    display: flex;
-    min-height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 .sidebar {
@@ -179,72 +180,40 @@ h2 {
 }
 
 #map {
-    height: 100%;
+    height: 300px;
     width: 100%;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    background-color: #ffffff;
+}
+
+[data-theme="dark"] #map {
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(255,255,255,0.1);
 }
 
 .timeline-container {
-    position: relative;
-    width: 50%;
-    height: 6px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    margin: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin: 20px auto;
+    overflow-x: auto;
 }
 
 .timeline {
-    position: relative;
     display: flex;
-    flex-wrap: nowrap;
-    gap: 15px;
-    padding: 5px 15px;
-    height: 200px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scrollbar-width: thin;
-    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-    cursor: grab;
-}
-
-.timeline:active {
-    cursor: grabbing;
-}
-
-.timeline::-webkit-scrollbar {
-    height: 8px;
-    display: block;
-}
-
-.timeline::-webkit-scrollbar-track {
-    background: var(--scrollbar-track);
-    border-radius: 4px;
-    margin: 0 10px;
-}
-
-.timeline::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar-thumb);
-    border-radius: 4px;
-    border: 2px solid var(--scrollbar-track);
-}
-
-.timeline::-webkit-scrollbar-thumb:hover {
-    background-color: #45a049;
+    gap: 20px;
+    padding: 20px;
+    min-width: max-content;
 }
 
 .timeline-item {
-    flex: 0 0 auto;
-    width: 350px;
-    height: 180px;
-    position: relative;
-    display: inline-block;
-    vertical-align: top;
-    margin-top: 5px;
-    background-color: var(--timeline-item-bg);
+    min-width: 200px;
+    padding: 15px;
+    background-color: var(--bg-color);
+    border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s;
 }
 
 .timeline-item::before {
@@ -383,62 +352,102 @@ h2 {
 }
 
 .timeline-popup {
-    background: var(--popup-bg);
-    color: var(--popup-text);
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--bg-color);
+    padding: 20px;
+    border-radius: 8px 8px 0 0;
+    box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.2);
+    max-height: 50vh;
+    overflow-y: auto;
+    z-index: 1000;
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
 }
 
 .timeline-popup.active {
     display: block;
+    transform: translateY(0);
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--text-color);
+}
+
+.popup-title {
+    margin: 0;
+    font-size: 1.5em;
+    color: var(--text-color);
+}
+
+.popup-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-color);
+    padding: 5px;
+    line-height: 1;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.popup-close:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .popup-close:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .popup-content {
+    max-width: 1200px;
+    margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     align-items: start;
 }
 
-.popup-image {
-    width: 100%;
-    max-height: 300px;
-    object-fit: cover;
-    border-radius: 4px;
-}
-
-.popup-text {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
 .popup-date {
-    font-weight: bold;
     color: var(--text-color);
-    font-size: 1.2em;
-}
-
-.popup-title {
-    font-size: 1.5em;
-    color: var(--text-color);
-    margin: 0;
+    font-size: 1.1em;
+    margin-bottom: 15px;
 }
 
 .popup-description {
     line-height: 1.6;
-    color: var(--popup-text);
+    margin-bottom: 20px;
 }
 
-.popup-close {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    background: none;
-    border: none;
-    font-size: 1.5em;
-    cursor: pointer;
-    color: var(--popup-text);
+.popup-image {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .popup-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .timeline-popup {
+        max-height: 70vh;
+    }
 }
 
 /* Verwijder de overlay styling aangezien we die niet meer nodig hebben */
@@ -959,4 +968,55 @@ footer {
 
 .rickroll-link:hover .rickroll-gif {
     transform: scale(1.1) rotate(-5deg);
+}
+
+.controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background: var(--bg-color);
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.language-select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+.theme-toggle {
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    background: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+@media (max-width: 600px) {
+    #map {
+        height: 250px;
+    }
+    .controls {
+        top: 10px;
+        right: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .popup-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .timeline-popup {
+        max-height: 70vh;
+    }
 } 

@@ -202,13 +202,9 @@ const darkTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x
 lightTiles.addTo(map);
 
 function setMapTheme(theme) {
-    if (theme === 'dark') {
-        if (map.hasLayer(lightTiles)) map.removeLayer(lightTiles);
-        if (!map.hasLayer(darkTiles)) darkTiles.addTo(map);
-    } else {
-        if (map.hasLayer(darkTiles)) map.removeLayer(darkTiles);
-        if (!map.hasLayer(lightTiles)) lightTiles.addTo(map);
-    }
+    // Altijd lightTiles gebruiken, ongeacht het thema
+    if (map.hasLayer(darkTiles)) map.removeLayer(darkTiles);
+    if (!map.hasLayer(lightTiles)) lightTiles.addTo(map);
 }
 
 // Detecteer en wissel bij laden
@@ -354,12 +350,14 @@ function showPopup(index) {
     const event = translations[currentLanguage].events[index];
     const popup = document.querySelector('.timeline-popup');
     
+    // Update popup content
     popup.querySelector('.popup-title').textContent = event.title;
     popup.querySelector('.popup-date').textContent = event.date;
     popup.querySelector('.popup-description').textContent = event.description;
     popup.querySelector('.popup-image').src = event.image;
     popup.querySelector('.popup-image').alt = event.title;
     
+    // Show popup
     popup.classList.add('active');
     
     // Center map on location
@@ -376,4 +374,14 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.timeline-popup').classList.remove('active');
         });
     }
+
+    // Add ESC key listener to close popup
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const popup = document.querySelector('.timeline-popup');
+            if (popup.classList.contains('active')) {
+                popup.classList.remove('active');
+            }
+        }
+    });
 }); 
