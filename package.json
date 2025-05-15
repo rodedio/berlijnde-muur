@@ -1,0 +1,15 @@
+{
+  "name": "berlin-wall-timeline",
+  "version": "1.0.0",
+  "description": "Interactive timeline and map of the Berlin Wall",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "mongoose": "^7.0.0",
+    "@supabase/supabase-js": "^2.0.0"
+  }
+} 

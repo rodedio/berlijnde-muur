@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berliner Mauer Zeitleiste</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <button id="sourcesToggle" class="sources-toggle">
+            <span data-lang-nl>Bronnen</span>
+            <span data-lang-de>Quellen</span>
+        </button>
+        
+        <div class="sidebar" id="sidebar">
+            <div class="sources-menu">
+                <h2 data-lang-nl>Bronnen</h2>
+                <h2 data-lang-de>Quellen</h2>
+                <div class="sources-content">
+                    <ul>
+                        <li><a href="https://en.wikipedia.org/wiki/Berlin_Wall" target="_blank" rel="noopener noreferrer">Wikipedia - Berlin Wall</a></li>
+                        <li><a href="https://www.berlin.de/en/attractions-and-sights/3560266-3104052-berlin-wall.en.html" target="_blank" rel="noopener noreferrer">Berlin.de - Berlin Wall History</a></li>
+                        <li><a href="https://www.history.com/topics/cold-war/berlin-wall" target="_blank" rel="noopener noreferrer">History.com - Berlin Wall</a></li>
+                        <li><a href="https://www.dhm.de/lemo/kapitel/geteiltes-deutschland-gruenderjahre/mauerbau.html" target="_blank" rel="noopener noreferrer">Deutsches Historisches Museum - Mauerbau</a></li>
+                        <li><a href="https://www.bundesregierung.de/breg-de/themen/deutsche-einheit" target="_blank" rel="noopener noreferrer">Bundesregierung - Deutsche Einheit</a></li>
+                    </ul>
+                </div>
+            </div>
+            <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0" target="_blank" class="rickroll-link">
+                <img src="rick.png" alt="test " class="rick.png">
+            </a>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <h1 data-lang-nl>Berlijnse Muur Tijdlijn</h1>
+                <h1 data-lang-de>Berliner Mauer Zeitleiste</h1>
+                <div class="header-controls">
+                    <button id="darkModeToggle" class="dark-mode-toggle">
+                        <span class="moon">🌙</span>
+                        <span class="sun">☀️</span>
+                    </button>
+                    <button id="languageSwitch" class="language-switch" data-lang="nl"></button>
+                </div>
+            </div>
+            
+            <div class="map-container">
+                <div id="map"></div>
+                <button id="resetMap" class="reset-button">
+                    <span data-lang-nl>Kaart Resetten</span>
+                    <span data-lang-de>Karte Zurücksetzen</span>
+                </button>
+            </div>
+            
+            <div class="timeline">
+                <!-- Timeline items will be inserted here by JavaScript -->
+            </div>
+            
+            <div class="timeline-popup">
+                <button class="popup-close">&times;</button>
+                <div class="popup-content">
+                    <div class="popup-text">
+                        <h2 class="popup-title"></h2>
+                        <p class="popup-date"></p>
+                        <p class="popup-description"></p>
+                    </div>
+                    <img class="popup-image" src="" alt="">
+                </div>
+            </div>
+            
+            <div class="timeline-cards">
+                <!-- Timeline cards will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+</html>
