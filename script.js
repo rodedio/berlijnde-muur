@@ -182,46 +182,8 @@ const translations = {
 let currentLanguage = 'nl';
 let markers = [];
 let timelineItems = [];
+let map; // Make map global so it can be used in all functions
 
-// Initialize map
-const map = L.map('map').setView([52.520008, 13.404954], 12);
-
-// Light mode tiles
-const lightTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '© OpenStreetMap contributors'
-});
-
-// Dark mode tiles (CartoDB Dark Matter)
-const darkTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>'
-});
-
-// Start met lightTiles
-lightTiles.addTo(map);
-
-function setMapTheme(theme) {
-    // Altijd lightTiles gebruiken, ongeacht het thema
-    if (map.hasLayer(darkTiles)) map.removeLayer(darkTiles);
-    if (!map.hasLayer(lightTiles)) lightTiles.addTo(map);
-}
-
-// Detecteer en wissel bij laden
-const initialTheme = document.documentElement.getAttribute('data-theme') || 'light';
-setMapTheme(initialTheme);
-
-// Pas aan bij wisselen van dark mode
-const darkModeToggle = document.getElementById('darkModeToggle');
-darkModeToggle.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    setMapTheme(newTheme);
-});
-
-// Initialize dark mode
 document.addEventListener('DOMContentLoaded', () => {
     // Check for saved theme preference
     const savedTheme = localStorage.getItem('theme');
@@ -229,55 +191,84 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.setAttribute('data-theme', savedTheme);
     }
 
-    // Existing DOMContentLoaded code...
-    document.getElementById('languageSwitch').setAttribute('data-lang', 'nl');
-    document.querySelector('[data-lang-nl]').classList.add('active');
-    document.querySelector('[data-lang-de]').classList.remove('active');
-    
-    // Add event listeners
-    document.getElementById('languageSwitch').addEventListener('click', switchLanguage);
-    
+    // Initialize the map after DOM is ready
+    map = L.map('map').setView([52.520008, 13.404954], 12);
+
+    // Light mode tiles
+    const lightTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors'
+    });
+    // Dark mode tiles (CartoDB Dark Matter)
+    const darkTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>'
+    });
+    lightTiles.addTo(map);
+
+    function setMapTheme(theme) {
+        if (map.hasLayer(darkTiles)) map.removeLayer(darkTiles);
+        if (!map.hasLayer(lightTiles)) lightTiles.addTo(map);
+    }
+
+    // Detecteer en wissel bij laden
+    const initialTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    setMapTheme(initialTheme);
+
+    // Add event listener for language selection dropdown
+    const languageSelect = document.getElementById('languageSelect');
+    if (languageSelect) {
+        languageSelect.value = currentLanguage;
+        languageSelect.addEventListener('change', (e) => {
+            currentLanguage = e.target.value;
+            loadTimelineData();
+        });
+    }
+
     // Add reset map functionality
-    document.getElementById('resetMap').addEventListener('click', () => {
-        map.setView([52.520008, 13.404954], 12);
-    });
-    
-    // Add sources toggle functionality
-    const sourcesToggle = document.getElementById('sourcesToggle');
-    const sidebar = document.getElementById('sidebar');
-    
-    sourcesToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
-        sourcesToggle.classList.toggle('hide', sidebar.classList.contains('active'));
-    });
-    
-    // Close sidebar when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!sidebar.contains(e.target) && !sourcesToggle.contains(e.target) && sidebar.classList.contains('active')) {
-            sidebar.classList.remove('active');
-            sourcesToggle.classList.remove('hide');
-        }
-    });
-    
-    // Update sources toggle text based on language
-    document.querySelector('#sourcesToggle [data-lang-nl]').classList.add('active');
-    document.querySelector('#sourcesToggle [data-lang-de]').classList.remove('active');
-    
+    const resetMapBtn = document.getElementById('resetMap');
+    if (resetMapBtn) {
+        resetMapBtn.addEventListener('click', () => {
+            map.setView([52.520008, 13.404954], 12);
+        });
+    }
+
+    // Dark mode toggle
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            setMapTheme(newTheme);
+        });
+    }
+
     // Load initial timeline data
     loadTimelineData();
-});
 
-function switchLanguage() {
-    const targetLanguage = currentLanguage === 'nl' ? 'de' : 'nl';
-    document.getElementById('languageSwitch').setAttribute('data-lang', targetLanguage);
-    currentLanguage = targetLanguage;
-    
-    // Toggle language classes for all elements
-    document.querySelectorAll('[data-lang-nl]').forEach(el => el.classList.toggle('active'));
-    document.querySelectorAll('[data-lang-de]').forEach(el => el.classList.toggle('active'));
-    
-    loadTimelineData();
-}
+    // Bronnenmenu functionaliteit
+    const sourcesToggle = document.getElementById('sourcesToggle');
+    const sidebar = document.getElementById('sidebar');
+    if (sourcesToggle && sidebar) {
+        sourcesToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.toggle('active');
+            sourcesToggle.classList.toggle('hide', sidebar.classList.contains('active'));
+        });
+        sidebar.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+        // Sluit sidebar als je buiten klikt
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !sourcesToggle.contains(e.target) && sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+                sourcesToggle.classList.remove('hide');
+            }
+        });
+    }
+});
 
 function loadTimelineData() {
     const timeline = document.querySelector('.timeline');
