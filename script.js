@@ -266,6 +266,45 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // Video popup functionality
+    const rickrollTrigger = document.getElementById('rickrollTrigger');
+    const videoPopup = document.getElementById('videoPopup');
+    const videoClose = document.querySelector('.video-close');
+    const rickrollVideo = document.getElementById('rickrollVideo');
+
+    if (rickrollTrigger && videoPopup && videoClose) {
+        // Link click handler
+        rickrollTrigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!videoPopup.classList.contains('active')) {
+                videoPopup.classList.add('active');
+                rickrollVideo.play();
+            }
+        });
+
+        // Open popup met Alt+R en sluiten met Shift+Alt+R
+        document.addEventListener('keydown', (e) => {
+            if (e.altKey && e.key.toLowerCase() === 'r') {
+                if (e.shiftKey) {
+                    // Sluit de popup met Shift+Alt+R
+                    videoPopup.classList.remove('active');
+                    rickrollVideo.pause();
+                    rickrollVideo.currentTime = 0;
+                } else {
+                    // Open de popup met Alt+R (alleen als deze nog niet open is)
+                    if (!videoPopup.classList.contains('active')) {
+                        videoPopup.classList.add('active');
+                        rickrollVideo.play();
+                    }
+                }
+            }
+        });
+
+        // Verwijder de oude close event listeners
+        videoClose.removeEventListener('click', () => {});
+        videoPopup.removeEventListener('click', () => {});
+    }
 });
 
 function loadTimelineData() {

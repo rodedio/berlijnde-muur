@@ -1052,4 +1052,59 @@ footer {
     height: 100%;
     width: 100%;
     min-height: 300px;
+}
+
+.video-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.video-popup.active {
+    display: flex;
+}
+
+.video-popup-content {
+    position: relative;
+    width: 80%;
+    max-width: 800px;
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.video-close {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 30px;
+    height: 30px;
+    background-color: var(--text-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.video-close:hover {
+    transform: scale(1.1);
+}
+
+#rickrollVideo {
+    width: 100%;
+    max-height: 80vh;
+    border-radius: 4px;
 } 
