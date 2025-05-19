@@ -248,24 +248,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load initial timeline data
     loadTimelineData();
 
-    // Bronnenmenu functionaliteit
+    // Sources menu functionality
     const sourcesToggle = document.getElementById('sourcesToggle');
     const sidebar = document.getElementById('sidebar');
+    
     if (sourcesToggle && sidebar) {
-        sourcesToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
+        sourcesToggle.addEventListener('click', () => {
             sidebar.classList.toggle('active');
-            sourcesToggle.classList.toggle('hide', sidebar.classList.contains('active'));
-        });
-        sidebar.addEventListener('click', (e) => {
-            e.stopPropagation();
-        });
-        // Sluit sidebar als je buiten klikt
-        document.addEventListener('click', (e) => {
-            if (!sidebar.contains(e.target) && !sourcesToggle.contains(e.target) && sidebar.classList.contains('active')) {
-                sidebar.classList.remove('active');
-                sourcesToggle.classList.remove('hide');
-            }
+            // Update button text based on language
+            const spans = sourcesToggle.querySelectorAll('span');
+            spans.forEach(span => {
+                if (span.getAttribute('data-lang-' + currentLanguage)) {
+                    span.classList.add('active');
+                } else {
+                    span.classList.remove('active');
+                }
+            });
         });
     }
 });

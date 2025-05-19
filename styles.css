@@ -50,22 +50,21 @@ body {
 }
 
 .sidebar {
-    width: 250px;
-    background-color: var(--header-bg);
-    color: var(--header-text);
+    width: 300px;
+    background-color: var(--card-bg);
+    color: var(--text-color);
     padding: 20px;
     position: fixed;
     height: 100vh;
     overflow-y: auto;
-    left: 0 !important;
-    z-index: 3000 !important;
-    display: block !important;
-    opacity: 1 !important;
+    left: -300px;
+    top: 0;
+    z-index: 1000;
     transition: left 0.3s ease;
-    box-sizing: border-box;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
 }
 
-.sidebar:hover {
+.sidebar.active {
     left: 0;
 }
 
@@ -74,7 +73,7 @@ body {
     left: 20px;
     top: 20px;
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: var(--text-color);
     color: white;
     border: none;
     border-radius: 4px;
@@ -84,8 +83,9 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.sources-toggle:hover + .sidebar {
-    left: 0;
+.sources-toggle:hover {
+    background-color: var(--text-color);
+    opacity: 0.9;
 }
 
 .sources-toggle span {
@@ -96,18 +96,14 @@ body {
     display: inline;
 }
 
-.sources-toggle.hide {
-    display: none !important;
-}
-
 .sources-menu h2 {
-    color: white;
+    color: var(--text-color);
     margin-bottom: 20px;
     font-size: 1.5rem;
 }
 
 .sources-content {
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 .sources-content ul {
@@ -120,7 +116,7 @@ body {
 }
 
 .sources-content a {
-    color: #4CAF50;
+    color: var(--text-color);
     text-decoration: none;
     transition: color 0.3s ease;
     display: block;
@@ -128,7 +124,8 @@ body {
 }
 
 .sources-content a:hover {
-    color: #45a049;
+    color: var(--text-color);
+    opacity: 0.8;
     text-decoration: underline;
 }
 
@@ -978,11 +975,14 @@ footer {
 }
 
 .rickroll-link {
-    position: absolute;
-    left: 20px;
-    bottom: 20px;
-    z-index: 1100;
-    display: block;
+    color: var(--text-color) !important;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.rickroll-link:hover {
+    opacity: 1;
+    text-decoration: underline !important;
 }
 
 .rickroll-gif {
