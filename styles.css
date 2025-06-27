@@ -4,7 +4,6 @@
     box-sizing: border-box;
 }
 
-
 /* Dark mode styles */
 :root {
     --bg-color: #f5f5f5;
@@ -51,21 +50,22 @@ body {
 }
 
 .sidebar {
-    width: 300px;
-    background-color: var(--card-bg);
-    color: var(--text-color);
+    width: 250px;
+    background-color: var(--header-bg);
+    color: var(--header-text);
     padding: 20px;
     position: fixed;
     height: 100vh;
     overflow-y: auto;
-    left: -300px;
-    top: 0;
-    z-index: 1000;
+    left: 0 !important;
+    z-index: 3000 !important;
+    display: block !important;
+    opacity: 1 !important;
     transition: left 0.3s ease;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    box-sizing: border-box;
 }
 
-.sidebar.active {
+.sidebar:hover {
     left: 0;
 }
 
@@ -74,7 +74,7 @@ body {
     left: 20px;
     top: 20px;
     padding: 10px 20px;
-    background-color: var(--text-color);
+    background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 4px;
@@ -84,9 +84,8 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.sources-toggle:hover {
-    background-color: var(--text-color);
-    opacity: 0.9;
+.sources-toggle:hover + .sidebar {
+    left: 0;
 }
 
 .sources-toggle span {
@@ -97,14 +96,18 @@ body {
     display: inline;
 }
 
+.sources-toggle.hide {
+    display: none !important;
+}
+
 .sources-menu h2 {
-    color: var(--text-color);
+    color: white;
     margin-bottom: 20px;
     font-size: 1.5rem;
 }
 
 .sources-content {
-    margin-top: 20px;
+    margin-top: 40px;
 }
 
 .sources-content ul {
@@ -117,7 +120,7 @@ body {
 }
 
 .sources-content a {
-    color: var(--text-color);
+    color: #4CAF50;
     text-decoration: none;
     transition: color 0.3s ease;
     display: block;
@@ -125,8 +128,7 @@ body {
 }
 
 .sources-content a:hover {
-    color: var(--text-color);
-    opacity: 0.8;
+    color: #45a049;
     text-decoration: underline;
 }
 
@@ -976,14 +978,11 @@ footer {
 }
 
 .rickroll-link {
-    color: var(--text-color) !important;
-    opacity: 0.8;
-    transition: opacity 0.3s ease;
-}
-
-.rickroll-link:hover {
-    opacity: 1;
-    text-decoration: underline !important;
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    z-index: 1100;
+    display: block;
 }
 
 .rickroll-gif {
@@ -1053,59 +1052,4 @@ footer {
     height: 100%;
     width: 100%;
     min-height: 300px;
-}
-
-.video-popup {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    z-index: 2000;
-    justify-content: center;
-    align-items: center;
-}
-
-.video-popup.active {
-    display: flex;
-}
-
-.video-popup-content {
-    position: relative;
-    width: 80%;
-    max-width: 800px;
-    background-color: var(--card-bg);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.video-close {
-    position: absolute;
-    top: -15px;
-    right: -15px;
-    width: 30px;
-    height: 30px;
-    background-color: var(--text-color);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s;
-}
-
-.video-close:hover {
-    transform: scale(1.1);
-}
-
-#rickrollVideo {
-    width: 100%;
-    max-height: 80vh;
-    border-radius: 4px;
 } 

@@ -248,62 +248,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load initial timeline data
     loadTimelineData();
 
-    // Sources menu functionality
+    // Bronnenmenu functionaliteit
     const sourcesToggle = document.getElementById('sourcesToggle');
     const sidebar = document.getElementById('sidebar');
-    
     if (sourcesToggle && sidebar) {
-        sourcesToggle.addEventListener('click', () => {
+        sourcesToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
             sidebar.classList.toggle('active');
-            // Update button text based on language
-            const spans = sourcesToggle.querySelectorAll('span');
-            spans.forEach(span => {
-                if (span.getAttribute('data-lang-' + currentLanguage)) {
-                    span.classList.add('active');
-                } else {
-                    span.classList.remove('active');
-                }
-            });
+            sourcesToggle.classList.toggle('hide', sidebar.classList.contains('active'));
         });
-    }
-
-    // Video popup functionality
-    const rickrollTrigger = document.getElementById('rickrollTrigger');
-    const videoPopup = document.getElementById('videoPopup');
-    const videoClose = document.querySelector('.video-close');
-    const rickrollVideo = document.getElementById('rickrollVideo');
-
-    if (rickrollTrigger && videoPopup && videoClose) {
-        // Link click handler
-        rickrollTrigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (!videoPopup.classList.contains('active')) {
-                videoPopup.classList.add('active');
-                rickrollVideo.play();
+        sidebar.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+        // Sluit sidebar als je buiten klikt
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !sourcesToggle.contains(e.target) && sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+                sourcesToggle.classList.remove('hide');
             }
         });
-
-        // Open popup met Alt+R en sluiten met Shift+Alt+R
-        document.addEventListener('keydown', (e) => {
-            if (e.altKey && e.key.toLowerCase() === 'r') {
-                if (e.shiftKey) {
-                    // Sluit de popup met Shift+Alt+R
-                    videoPopup.classList.remove('active');
-                    rickrollVideo.pause();
-                    rickrollVideo.currentTime = 0;
-                } else {
-                    // Open de popup met Alt+R (alleen als deze nog niet open is)
-                    if (!videoPopup.classList.contains('active')) {
-                        videoPopup.classList.add('active');
-                        rickrollVideo.play();
-                    }
-                }
-            }
-        });
-
-        // Verwijder de oude close event listeners
-        videoClose.removeEventListener('click', () => {});
-        videoPopup.removeEventListener('click', () => {});
     }
 });
 
